@@ -12,9 +12,10 @@ import static config.Const.*;
 
 public class Reformulation1 {
 
-    public void start(Model model, GSet G, double MIP) throws IloException {
+    public void start(Model model, GSet G, double MIP)  {
         // define new model
-        IloCplex cplex = new IloCplex();
+        try {
+            IloCplex cplex = new IloCplex();
         if (MIP!=0)
             cplex.setParam(IloCplex.Param.MIP.Tolerances.MIPGap, MIP);
         cplex.setParam(IloCplex.Param.MIP.Strategy.Search,
@@ -212,6 +213,8 @@ public class Reformulation1 {
             writeResult(saveResultRef1,schedule,HAP,obj,leadTime,model);
         } else System.out.println("problem not solved");
         cplex.end();
-
+        } catch (IloException e) {
+            e.printStackTrace();
+        }
     }
 }
